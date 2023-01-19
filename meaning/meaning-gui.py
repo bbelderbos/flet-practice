@@ -72,23 +72,6 @@ def main(page):
         page.title = "Verstehe die Bedeutung eines Wortes - Deutsch"
         page.update()
     
-    lang_text = ft.Text("LANG")
-    lang_icon = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.LANGUAGE_OUTLINED), ft.Text("")], alignment="center", spacing=5
-        ),
-        tooltip="EN/DE",
-        text="EN/DE",
-        bgcolor=ft.colors.BLACK54,
-        shape=ft.RoundedRectangleBorder(radius=15),
-        width=60,
-        mini=True,
-        data="EN",
-        on_click=set_language
-    )
-    
-    page.add(lang_icon)
-    page.update()
     
     # When the button is clicked, we display the results of the lookup.
     def btn_click(e):
@@ -118,7 +101,25 @@ def main(page):
             
             page.update()
 
-    # Inputs View
+    # The language switching icon in the lower right corner
+    lang_text = ft.Text("LANG")
+    lang_icon = ft.FloatingActionButton(
+        content=ft.Row(
+            [ft.Icon(ft.icons.LANGUAGE_OUTLINED), ft.Text("")], alignment="center", spacing=5
+        ),
+        tooltip="EN/DE",
+        text="EN/DE",
+        bgcolor=ft.colors.BLACK54,
+        shape=ft.RoundedRectangleBorder(radius=15),
+        width=60,
+        mini=True,
+        data="EN",
+        on_click=set_language
+    )
+    page.add(lang_icon)
+    page.update()
+    
+    # Input controls - text box and button
     txt_word = ft.TextField(label="What's a word you'd like to learn?",on_submit=btn_click, width=350)
     btn = ft.ElevatedButton("Define", on_click=btn_click)
     input_controls = ft.Column(controls=[
@@ -126,7 +127,8 @@ def main(page):
                alignment=ft.MainAxisAlignment.SPACE_EVENLY),
     ])
     page.add(input_controls)
-    # Output View
+    
+    # Output View - display window for the results
     response_list = ft.Text("")  # ft.Text("")
     page.add(response_list)
     

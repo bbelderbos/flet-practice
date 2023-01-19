@@ -48,47 +48,52 @@ def main(page):
             
     def set_english():
         ''' Set the language options to English in the page.session values '''
-        page.session.set("intro", f"Your word was {txt_word.value}:\n")
+        page.session.set("intro", f"Your word was ")
         page.session.set("datasrc", {"data-src": "hc_dict"})
         page.session.set("site", "https://www.thefreedictionary.com/")
         page.session.set("button_txt", "Define")
+        txt_word.clean()
+        txt_word.value = ""
         print("Switched to ENGLISH")
         lang_icon.data = "EN"
         lang_text.value = "EN"
         txt_word.label = "What's a word you'd like to learn?"
         page.title = "Get a Word's Meaning - English"
+        btn.text = "Define"
         page.update()
     
     def set_deutsch():
         ''' Set the language options to Deutsch in the page.session values '''
-        page.session.set("intro", f"Dein Wort war {txt_word.value}:\n")
+        page.session.set("intro", f"Dein Wort war ")
         page.session.set("datasrc", {"data-src": "pons"})
         page.session.set("site", "https://de.thefreedictionary.com/")
         page.session.set("button_txt", "Definieren")
+        txt_word.clean()
+        txt_word.value = ""
         print("Switched to DEUTSCH")
         lang_icon.data = "DE"
         lang_text.value = "DE"
         txt_word.label = "Welches Wort möchtest du lernen?"
         page.title = "Verstehe die Bedeutung eines Wortes - Deutsch"
+        btn.text = "definieren"
         page.update()
     
     
     # When the button is clicked, we display the results of the lookup.
     def btn_click(e):
-        # first clear the original text
+        # update the "word"
+        word = txt_word.value
         
-        if not txt_word.value:
+        if not word:
             txt_word.error_text = "Please enter a word to lookup"
             page.update()
         else:
             # show the progress bar
             page.splash = ft.ProgressBar()
-            btn_click.disabled = True
+            
             page.update()
-            # get the entry
-            word = txt_word.value
             # get the current language settings
-            intro = page.session.get("intro")
+            intro = page.session.get("intro") + f": {word}\n"
             datasrc = page.session.get("datasrc")
             site = page.session.get("site")
             # get the definition in response
